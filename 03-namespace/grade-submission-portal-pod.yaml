@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: grade-submission-portal  ## Uniquely identifies the pod
+  namespace: grade-submission
+  labels:  ## Categorize pods into distinct groups for flexible querying
+    app.kubernetes.io/name: grade-submission
+    app.kubernetes.io/component: frontend  ## component within the application
+    app.kubernetes.io/instance: grade-submission-portal  ## specific instance of the application
+spec:  ## Specification of the Pod
+  containers:
+  - name: grade-submission-portal
+    image: rslim087/kubernetes-course-grade-submission-portal:latest  ## Container image
+    env:
+      - name: GRADES_SERVICE_HOST  ## Environment variable for the API service host
+        value: "grade-submission-api"  ## grade-submission-api-service name used for internal DNS resolution
+    resources:
+      requests:  ##
+        memory: "128Mi"
+        cpu: "200m"
+      limits:
+        memory: "128Mi"
+        # cpu: "500m" Best practice: Do not set CPU limit, handled by linux kernel
+    ports:
+      - containerPort: 5001
+# kubectl apply -f grade-submission-portal-pod.yaml -> Creates the pod
+# k get pods -> Lists the pods
+# k describe pod <pod-name> -> Describes the pod in detail
+# k logs <pod-name> -> Fetches the logs of the pod
+# k logs -f <pod-name> -> Stream the logs of the pod
+# k logs -f grade-submission-portal -c grade-submission-portal-health-checker -> Stream the logs of a specific container in the pod
+# kubectl port-forward --address 0.0.0.0 grade-submission-portal 8080:5001 -> Port forwarding to access the application running inside the pod
+# k delete pod grade-submission-portal
+# k delete pod --all
+# kubectl create namespace grade-submission

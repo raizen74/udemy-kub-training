@@ -31,3 +31,4 @@ spec:  ## Specification of the Pod
 # kubectl port-forward --address 0.0.0.0 grade-submission-portal 8080:5001 -> Port forwarding to access the application running inside the pod
 # k delete pod grade-submission-portal
 # k delete pod --all
+# kubectl create namespace grade-submission
