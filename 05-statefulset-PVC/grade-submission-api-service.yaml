@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grade-submission-api  ## Uniquely identifies the service
+  namespace: grade-submission
+spec:
+  selector:
+    app.kubernetes.io/instance: grade-submission-api  ## Selects pods with this label
+  ports:
+  ## Port on which the service is exposed, internal.
+  ## Accessible in the application code via http://<service-name>:<port>
+  - port: 3000
+    targetPort: 3000  ## Port on the pod to which traffic is directed
+    ## targetPort=port implies that from application perspective,
+    ## it does not matter if the client connects to the service or directly to the pod

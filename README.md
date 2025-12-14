@@ -47,3 +47,10 @@ readinessProbe:
 
 
 Usage Use liveness probes to detect and restart unhealthy containers. Use readiness probes to determine when a container is ready to start accepting traffic. Together, they ensure your application remains healthy and responsive in a Kubernetes environment.
+
+## StatefulSet and PVC
+
+`PVC` finds storage in any node in the cluster and bounds to it, each replicaset managed by the `StatefulSet` controller is bound to the same PVC
+
+- `kubectl get statefulset -n grade-submission`
+- `kubectl get pvc -n grade-submission`
