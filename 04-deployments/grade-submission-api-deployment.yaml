@@ -17,7 +17,19 @@ spec:
     spec:
       containers:
       - name: grade-submission-api
-        image: rslim087/kubernetes-course-grade-submission-api:stateless-v4
+        image: rslim087/kubernetes-course-grade-submission-api:stateless
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources:
           requests:
             memory: "128Mi"
