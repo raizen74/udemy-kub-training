@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grade-submission-portal-ingress
+  namespace: grade-submission
+spec:
+  ingressClassName: nginx ## specifies the ingress controller to use
+  rules:
+  # - host: grades.myuniversity.com ## This configuration would only allow traffic from the specified host (grades.myuniversity.com) to be routed to the service. Any requests from other hosts would be rejected
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/" ## rule that matches all paths
+        backend:
+          service:
+            name: grade-submission-portal ## name of the service to route traffic to
+            port: 
+              number: 5001

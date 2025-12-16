@@ -12,6 +12,11 @@
 - `k delete pod grade-submission-portal`
 - `k delete pod --all`
 
+## Services
+
+- `ClusterIP Service` is a natural load balancer at the pod level.
+- `NodePort Service` exposes a machine port bound to the pod.
+
 ## Namespaces
 
 - `kubectl get namespace`
@@ -72,3 +77,9 @@ You need the metrics server installed
 
 - `k top pod -n grade-submission`
 - `k get hpa -n grade-submission`
+
+## Ingress
+
+You need to install the nginx ingress controller
+
+- `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.1/deploy/static/provider/cloud/deploy.yaml`

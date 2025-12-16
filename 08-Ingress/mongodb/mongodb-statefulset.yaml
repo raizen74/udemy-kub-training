@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  namespace: grade-submission
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: mongodb
+  serviceName: mongodb ## every pod replica will be named mongodb-0, mongodb-1, etc.
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: grade-submission
+        app.kubernetes.io/components: database  ## component within the application
+        app.kubernetes.io/instance: mongodb  ## specific instance of the application
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:4.4
+        envFrom:
+          - secretRef:
+              name: mongodb-secret
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongodb-persistent-storage
+          mountPath: /data/db
+  volumeClaimTemplates:  ## Define Persistent Volume Claims for each pod replica
+  - metadata:
+      name: mongodb-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
+# Explanation:
+# This YAML file defines a StatefulSet for MongoDB with 2 replicas.
+# Each replica will have its own Persistent Volume Claim (PVC) for data storage, ensuring data persistence across
+# pod restarts. The PVCs are created based on the volumeClaimTemplates section.
