@@ -56,3 +56,10 @@ Usage Use liveness probes to detect and restart unhealthy containers. Use readin
 
 - `kubectl get statefulset -n grade-submission`
 - `kubectl get pvc -n grade-submission`
+
+## ConfigMap & Secrets
+
+Secrets: **data** field expects base64 encoded values
+
+- `echo -n "admin" | base64`
+- `k apply -f ./grade-submission-portal/` -> deploy directory

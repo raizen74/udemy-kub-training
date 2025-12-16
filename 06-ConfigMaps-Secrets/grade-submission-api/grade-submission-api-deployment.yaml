@@ -35,15 +35,11 @@ spec:
             port: 3000
           initialDelaySeconds: 10
           periodSeconds: 5
-        env:
-          - name: MONGODB_HOST  ## Environment variable for the MongoDB service host
-            value: "mongodb"  ## mongodb service name used for internal DNS resolution
-          - name: MONGODB_PORT  ## Environment variable for the MongoDB service port
-            value: "27017"
-          - name: MONGODB_USER
-            value: "admin"
-          - name: MONGODB_PASSWORD
-            value: "password1234"
+        envFrom:
+          - configMapRef: 
+              name: grade-submission-api-config
+          - secretRef:
+              name: grade-submission-api-secret
         resources:
           requests:
             memory: "128Mi"
