@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.microservice.name}}  ## Uniquely identifies the service
+  namespace: {{.Values.microservice.namespace}}
+spec:
+  type: ClusterIP  ## Exposes the service on each Node's IP at a static port
+  selector:
+    app.kubernetes.io/instance: {{.Values.microservice.name}}  ## Selects pods with this label
+  ports:
+  - port: {{.Values.workload.port}} ## Port on which the service is exposed, internal
+    targetPort: {{.Values.workload.port}}  ## Port on the pod to which traffic is directed

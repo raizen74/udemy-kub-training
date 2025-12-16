@@ -80,6 +80,13 @@ You need the metrics server installed
 
 ## Ingress
 
-You need to install the nginx ingress controller
+The Kubernetes community NGINX Ingress Controller is being retired in March 2026. You need to install the nginx ingress controller
 
 - `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.1/deploy/static/provider/cloud/deploy.yaml`
+- `k get svc -n ingress-nginx`
+
+## Helm
+
+- `helm template ./09-helm/grade-submission-api/`
+- `helm package .`
+- `helm install grade-submission-api ./grade-submission-api-1.0.0.tgz`
