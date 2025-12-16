@@ -18,6 +18,8 @@
 
 ## Deployments -> Replicas of a Pod
 
+Used for **stateless services**
+
 - `kubectl get deployments,services -n grade-submission`
 
 ## Liveness and Readiness
