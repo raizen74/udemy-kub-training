@@ -1,3 +1,5 @@
+- `k delete all --all -n grade-submission` -> Delete all resources in a namespace
+
 ## Pods
 
 - `kubectl apply -f grade-submission-portal-pod.yaml` -> Creates the pod
@@ -63,3 +65,10 @@ Secrets: **data** field expects base64 encoded values
 
 - `echo -n "admin" | base64`
 - `k apply -f ./grade-submission-portal/` -> deploy directory
+
+## Horizontal Pod Autoscaler (HPA)
+
+You need the metrics server installed
+
+- `k top pod -n grade-submission`
+- `k get hpa -n grade-submission`

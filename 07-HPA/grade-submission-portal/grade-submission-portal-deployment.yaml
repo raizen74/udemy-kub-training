@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grade-submission-portal
+  namespace: grade-submission
+spec:
+  replicas: 1  ## Number of pod replicas
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: grade-submission-portal
+  template:
+    metadata:
+      name: grade-submission-portal  ## Uniquely identifies the pod
+      namespace: grade-submission
+      labels:  ## Categorize pods into distinct groups for flexible querying
+        app.kubernetes.io/name: grade-submission
+        app.kubernetes.io/component: frontend  ## component within the application
+        app.kubernetes.io/instance: grade-submission-portal  ## specific instance of the application
+    spec:  ## Specification of the Pod
+      containers:
+      - name: grade-submission-portal
+        image: rslim087/kubernetes-course-grade-submission-portal:latest  ## Container image
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5001
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 5001
+          periodSeconds: 5
+        envFrom:
+          - configMapRef:
+              name: grade-submission-portal-config  ## Reference to ConfigMap for environment variables
+        resources:
+          requests:  ## minimum resources required
+            memory: "128Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            # cpu: "500m" Best practice: Do not set CPU limit, handled by linux kernel
+        ports:
+          - containerPort: 5001
