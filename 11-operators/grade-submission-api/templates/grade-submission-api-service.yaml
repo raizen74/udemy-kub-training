@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.microservice.name }}  ## Uniquely identifies the service
+  namespace: {{ .Values.microservice.namespace }}
+spec:
+  selector:
+    app.kubernetes.io/instance: {{ .Values.microservice.name }}  ## Selects pods with this label
+  ports:
+  ## Port on which the service is exposed, internal.
+  ## Accessible in the application code via http://<service-name>:<port>
+  - port: {{ .Values.workload.port }}  ## Service port exposed within the cluster
+    targetPort: {{ .Values.workload.port }}  ## Port on the pod to which traffic is directed
+    ## targetPort=port implies that from application perspective,
+    ## it does not matter if the client connects to the service or directly to the pod

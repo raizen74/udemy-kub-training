@@ -91,7 +91,7 @@ The Kubernetes community NGINX Ingress Controller is being retired in March 2026
 - `helm package .` -> Package a **Chart**
 - `helm install grade-submission-api ./grade-submission-api-1.0.0.tgz -n grade-submission`
 - `helm uninstall grade-submission-api -n grade-submission` -> Uninstall release
-- `helm list -A`
+- `helm list -A` -> List helm releases in all namespaces
 - `helm upgrade grade-submission-api ./grade-submission-api-1.0.0.tgz -n grade-submission`
 - `helm upgrade grade-submission-api . -n grade-submission` -> Directly packages and upgrades
 - `helm rollback grade-submission-api 2 -n grade-submission` -> Rollback to previous release
@@ -104,6 +104,7 @@ The Kubernetes community NGINX Ingress Controller is being retired in March 2026
 - `helm show values bitnami/mongodb > default_values.yaml` -> Extract the default values into a file and override them in values.yaml
 - `kubectl create namespace mongodb`
 - `helm install mongodb bitnami/mongodb --version 15.6.13 -f values.yaml -n mongodb` -> values.yaml overrides default_values.yaml
+- `helm repo remove bitnami`
 
 Connect to services in another namespace:
 
@@ -141,3 +142,13 @@ Thoroughly read the chart's documentation, and understand the implications of ch
 Conclusion
 
 By leveraging Helm as a package manager, you can significantly simplify the deployment and management of complex software in Kubernetes environments, allowing you to focus more on your application and less on the intricacies of Kubernetes configurations.
+
+## Kubernetes Operators
+
+- `helm repo add mongodb https://mongodb.github.io/helm-charts`
+- `helm install community-operator mongodb/community-operator --version 0.10.0 -n mongodb`
+- `k logs -f mongodb-kubernetes-operator-78975cc44b-pqgh9 -n mongodb`
+- `k apply -f mongodb-user-password.yaml`
+- `k apply -f mongodb-grade-submission.yaml`
+- `k get all -n mongodb`
+- `k describe pod grade-submission-api-6886558ccf-g5gpp -n grade-submission`
