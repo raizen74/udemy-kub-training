@@ -15,4 +15,4 @@ workload: ## Workload specific configurations
   livenessDelay: 15
 
 secrets:
-  MONGODB_URI: "mongodb://localhost:27017/"
+  MONGODB_URI: "mongodb://mongodb.mongodb.svc.cluster.local:27017/"
