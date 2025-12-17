@@ -87,6 +87,11 @@ The Kubernetes community NGINX Ingress Controller is being retired in March 2026
 
 ## Helm
 
-- `helm template ./09-helm/grade-submission-api/`
-- `helm package .`
-- `helm install grade-submission-api ./grade-submission-api-1.0.0.tgz`
+- `helm template ./09-helm/grade-submission-api/` -> Preview the rendered manifests
+- `helm package .` -> Package a **Chart**
+- `helm install grade-submission-api ./grade-submission-api-1.0.0.tgz -n grade-submission`
+- `helm uninstall grade-submission-api -n grade-submission` -> Uninstall release
+- `helm list -A`
+- `helm upgrade grade-submission-api ./grade-submission-api-1.0.0.tgz -n grade-submission`
+- `helm upgrade grade-submission-api . -n grade-submission` -> Directly packages and upgrades
+- `helm rollback grade-submission-api 2 -n grade-submission` -> Rollback to previous release

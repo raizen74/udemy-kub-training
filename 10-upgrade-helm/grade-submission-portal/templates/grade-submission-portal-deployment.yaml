@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.microservice.name}}
+  namespace: {{.Values.microservice.namespace}}
+spec:
+  replicas: 1  ## Number of pod replicas
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{.Values.microservice.name}}
+  template:
+    metadata:
+      name: {{.Values.microservice.name}}  ## Uniquely identifies the pod
+      namespace: grade-submission
+      labels:  ## Categorize pods into distinct groups for flexible querying
+        app.kubernetes.io/name: grade-submission
+        app.kubernetes.io/component: frontend  ## component within the application
+        app.kubernetes.io/instance: {{.Values.microservice.name}}  ## specific instance of the application
+    spec:  ## Specification of the Pod
+      containers:
+      - name: {{.Values.microservice.name}}
+        image: {{.Values.workload.image}}  ## Container image
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: {{.Values.workload.port}}
+          initialDelaySeconds: {{.Values.workload.livenessDelay}}
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: {{.Values.workload.port}}
+          periodSeconds: 5
+        envFrom:
+          - configMapRef:
+              name: {{.Values.microservice.name}}-config  ## Reference to ConfigMap for environment variables
+        resources:
+          requests:  ## minimum resources required
+            memory: {{ .Values.workload.resources.memory }}
+            cpu: {{ .Values.workload.resources.cpu }}
+          limits:
+            memory: {{ .Values.workload.resources.memory }}
+            # cpu: "500m" Best practice: Do not set CPU limit, handled by linux kernel
+        ports:
+          - containerPort: {{.Values.workload.port}}  ## Port on which the container listens
